@@ -61,40 +61,41 @@ function checkAnswer(userSequence, userChosenColour) {
 }
 
 function play() {
-  $(document).keydown(function (e) {
-    const key = e.key;
-    if (key) {
-      $(document).off('keydown');
-      nextSequence();
-      $('#level-title').text('Level ' + currentLevel);
-      $('.btn').click(function () {
-        const userChosenColour = $(this).attr('id');
+  $('#start').click(function () {
+    $('#start').off('click');
+    $('#start').hide();
+    nextSequence();
+    $('#level-title').text('Level ' + currentLevel);
+    $('.btn').click(function () {
+      const userChosenColour = $(this).attr('id');
 
-        userClickedPattern.push(userChosenColour);
-        animatePress(userChosenColour);
+      userClickedPattern.push(userChosenColour);
+      animatePress(userChosenColour);
 
-        if (checkAnswer(userSequence, userChosenColour)) {
-          ++userSequence;
-          if (userSequence > currentLevel) {
-            ++currentLevel;
-            userSequence = 0;
-            setTimeout(() => nextSequence(), 500);
-            $('#level-title').text('Level ' + currentLevel);
-          }
-        } else {
-          wrongSound.play();
+      if (checkAnswer(userSequence, userChosenColour)) {
+        ++userSequence;
+        if (userSequence > currentLevel) {
+          ++currentLevel;
           userSequence = 0;
-          currentLevel = 0;
-          gamePattern.length = 0;
-          userClickedPattern.length = 0;
-          $('body').addClass('game-over');
-          setTimeout(() => $('body').removeClass('game-over'), 200);
-          $('#level-title').text('Game Over, Press Any Key to Restart');
-          $('.btn').off('click');
-          play();
+          setTimeout(() => nextSequence(), 500);
+          $('#level-title').text('Level ' + currentLevel);
         }
-      });
-    }
+      } else {
+        wrongSound.play();
+        userSequence = 0;
+        currentLevel = 0;
+        gamePattern.length = 0;
+        userClickedPattern.length = 0;
+        $('body').addClass('game-over');
+        setTimeout(() => $('body').removeClass('game-over'), 200);
+        $('#level-title').text('Game Over, Click the button to Restart');
+        $('.btn').off('click');
+        $('#start').text('Restart');
+        $('#start').show();
+
+        play();
+      }
+    });
   });
 }
 play();

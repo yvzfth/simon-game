@@ -16,7 +16,12 @@ body {
   margin: auto;
 
 }
-
+#start {
+  padding: 1rem 2rem;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: 600;
+  font-size: larger;
+}
 .btn {
   margin: 25px;
   display: inline-block;
